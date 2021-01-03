@@ -22,4 +22,4 @@ The data is a graduate-level dataset that contains personal characteristics, per
 * The average age of Digital House students is 34 years.
 * 1,327 null values were found.
 * There are outliers in both the upper and lower ends of the distribution (94 outliers in total). As an example, there is a 15 years old student who took 84 days finding a job, the days to find a job is not an outlier so that data points is kept.
-![](graph/box_age.png)
+![](graphs/box_age.png)
