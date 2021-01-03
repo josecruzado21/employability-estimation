@@ -18,6 +18,14 @@ The data is a graduate-level dataset that contains personal characteristics, per
 
 ### Descriptive Statistics
 
+#### Days to find a job
+* The average days graduated students take to find a job is 91
+* Not many outliers were found, however, all of them (4 data points) are in the upper side of the distribution. 
+* The minimum amount of days that students took to find a job was 79, and the maximum 115.
+<p align="center">
+  <img src="graphs/box_days.png" />
+</p>
+
 #### Age:
 * The average age of Digital House students is 34 years.
 * 1,327 null values were found.
