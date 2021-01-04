@@ -1,6 +1,9 @@
+  
 from sklearn.base import BaseEstimator, TransformerMixin
 import pandas as pd
-import numpy as np
+from sklearn.experimental import enable_iterative_imputer
+from sklearn.impute import IterativeImputer
+from sklearn.preprocessing import StandardScaler
 
 
 # All sklearn Transforms must have the `transform` and `fit` methods
@@ -8,7 +11,7 @@ class DropColumns(BaseEstimator, TransformerMixin):
     def __init__(self, columns):
         self.columns = columns
 
-    def fit(self, X, y=None):
+    def fit(self, X):
         return self
 
     def transform(self, X):
@@ -17,20 +20,45 @@ class DropColumns(BaseEstimator, TransformerMixin):
         # Retornamos um novo dataframe sem as colunas indesejadas
         return data.drop(labels=self.columns, axis='columns')
         
-class Undersample(BaseEstimator, TransformerMixin):
-    def __init__(self,porcentaje):
-        self.porcentaje=porcentaje
+class Imputer(BaseEstimator, TransformerMixin):
 
-    def fit(self, X, y):
+    def __init__(self,columns):
+        self.columns=columns
+    
+    def fit(self, X):
+        self.imputer=IterativeImputer(max_iter=15,random_state=0)
+        self.imputer.fit(X)
         return self
     
-    def transform(self, X,y):
-        # Primero copiamos el dataframe de datos de entrada 'X'
-        aceptados_train=X[y=='Aceptado'].shape[0]
-        noaceptados_train=X[y!='Aceptado'].shape[0]
-        todo=pd.concat([X,y],axis=1)
-        X1=todo.copy()[todo['OBJETIVO']=='Aceptado'].sample(int(round(noaceptados_train+(aceptados_train-noaceptados_train)*self.porcentaje)))
-        X2=todo.copy()[todo['OBJETIVO']!='Aceptado']
-        Xs=pd.concat([X1,X2])[X.columns]
-        ys=pd.concat([X1,X2])['OBJETIVO']
-        return (Xs,ys) 
+    def transform(self, X):
+        data=X.copy()
+        X_imputar=pd.DataFrame(self.imputer.transform(X),columns=X.columns)
+        for i in list(self.columns):
+            data[i]=X_imputar[i]
+        return data
+    
+class Encoder(BaseEstimator, TransformerMixin):
+    def __init__(self,columns):
+        self.columns=columns
+
+    def fit(self, X):
+        return self
+    
+    def transform(self, X):
+        data=X.copy()
+        return pd.get_dummies(data,columns=self.columns)
+    
+class Scaler(BaseEstimator,TransformerMixin):
+    def __init__(self,columns):
+        self.columns=columns
+    
+    def fit(self,X):
+        self.scaler=StandardScaler()
+        self.scaler.fit(X)
+        return self
+    def transform(self,X):
+        data=X.copy()
+        X_scaled=pd.DataFrame(self.scaler.transform(X),columns=X.columns)
+        for i in list(self.columns):
+            data[i]=X_scaled[i]
+        return data
