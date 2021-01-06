@@ -1,6 +1,7 @@
   
 from sklearn.base import BaseEstimator, TransformerMixin
 import pandas as pd
+import numpy as np
 from sklearn.experimental import enable_iterative_imputer
 from sklearn.impute import IterativeImputer
 from sklearn.preprocessing import StandardScaler
@@ -62,3 +63,25 @@ class Scaler(BaseEstimator,TransformerMixin):
         for i in list(self.columns):
             data[i]=X_scaled[i]
         return data
+    
+class ManageOutliers(BaseEstimator,TransformerMixin):
+    def __init__(self,columns):
+        self.columns=columns
+    
+    def fit(self,X):
+        return self
+    
+    def transform(self,X):
+        data=X.copy()
+        q1=X.quantile(0.25)
+        q3=X.quantile(0.75)
+        iqr=q3-q1      
+        for i in list(self.columns):
+            name_inf=i+'_INF'
+            name_sup=i+'_SUP'
+            data[name_inf]=np.where((data<q1-1.5*iqr)[i],1,0)
+            data[name_sup]=np.where((data>q3+1.5*iqr)[i],1,0)
+            data.loc[((data<q1-1.5*iqr)[i]),[i]]=(q1-1.5*iqr)[i]
+            data.loc[((data>q3+1.5*iqr)[i]),[i]]=(q3+1.5*iqr)[i]
+        return data
+        
