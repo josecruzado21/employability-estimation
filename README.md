@@ -2,13 +2,13 @@
 
 ## Objective
 
-The aim of this project is to estimate how long it takes, after completion of online Bootcamps at Digital House, to land a job. The objective is to predict the number of days that a graduated student will take to be hired.
+The objective of this project is to predict the number of days that a graduated student from online Bootcamps will take to find a job.
 
 ## About the dataset
 
-The dataset was provided by Digital House, and Argentine coding schools with more than 99,000 graduates, in the context of the 2020 IBM Behind the Code Hackathon.
+The dataset was provided by Digital House, and Argentine coding school with more than 99,000 graduates, in the context of the 2020 IBM Behind the Code Hackathon.
 
-The data is a graduate-level dataset that contains personal characteristics, performance in the Digital House course and the days after completion of the course the graduate took to find a job.
+The data is a graduate-level dataset that contains personal characteristics, performance in the Digital House course and the number of days that the student took to find a job after completion of the program.
 
 ## Description of the dataset
 
@@ -114,3 +114,14 @@ The data is a graduate-level dataset that contains personal characteristics, per
 </p>
 
 ### Pipeline
+
+For a more efficient integration with IBM Cloud, all the preprocessing steps were consolidated into a pipeline (the code can be found in transformation_pipeline.py). The setps included are:
+
+* Column removal
+* Encoding of categorical variables
+* Imputation of values with iterative imputer
+
+### Estimation
+
+The model that best performed on the regression task of estimating the average number of days to find a job was XGBoost. The datails of the estimation can be found on the Jupyter Notebook.
+
