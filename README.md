@@ -123,5 +123,5 @@ For a more efficient integration with IBM Cloud, all the preprocessing steps wer
 
 ### Estimation
 
-The model that best performed on the regression task of estimating the average number of days to find a job was XGBoost (R^2=81%). The datails of the estimation can be found on the Jupyter Notebook.
+The model that best performed on the regression task of estimating the average number of days to find a job was XGBoost (R<sup>2</sup>=81%). The datails of the estimation can be found on the Jupyter Notebook.
 
